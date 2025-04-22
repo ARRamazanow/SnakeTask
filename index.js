@@ -84,3 +84,25 @@ const initGame = () => {
 updateFoodPosition();
 setIntervalId = setInterval(initGame, 100);
 document.addEventListener("keydown", changeDirection);
+
+let startX, startY;
+
+document.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", (e) => {
+    let endX = e.changedTouches[0].clientX;
+    let endY = e.changedTouches[0].clientY;
+    let diffX = endX - startX;
+    let diffY = endY - startY;
+
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX > 0 && velocityX !== -1) changeDirection({ key: "ArrowRight" });
+        else if (diffX < 0 && velocityX !== 1) changeDirection({ key: "ArrowLeft" });
+    } else {
+        if (diffY > 0 && velocityY !== -1) changeDirection({ key: "ArrowDown" });
+        else if (diffY < 0 && velocityY !== 1) changeDirection({ key: "ArrowUp" });
+    }
+});
